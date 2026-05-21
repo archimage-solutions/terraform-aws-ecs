@@ -701,14 +701,14 @@ variable "requires_compatibilities" {
 }
 
 variable "runtime_platform" {
-  description = "Configuration block for `runtime_platform` that containers in your task may use"
+  description = "Configuration block for `runtime_platform`. Leave cpu_architecture unset to let ECS choose based on capacity provider (useful for multi-arch images)."
   type = object({
-    cpu_architecture        = optional(string, "X86_64")
+    cpu_architecture        = optional(string)            # no default → null when caller omits it
     operating_system_family = optional(string, "LINUX")
   })
   default = {
     operating_system_family = "LINUX"
-    cpu_architecture        = "X86_64"
+    # cpu_architecture intentionally omitted → null
   }
   nullable = false
 }
